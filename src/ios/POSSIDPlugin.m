@@ -1,7 +1,7 @@
-#import "NXWWifiWizard.h"
+#import "POSSIDPlugin.h"
 #import <SystemConfiguration/CaptiveNetwork.h>
 
-@implementation NXWWifiWizard
+@implementation POSSIDPlugin
 
 - (void)getConnectedSSID:(CDVInvokedUrlCommand*)command {
     CDVPluginResult *pluginResult = nil;
