@@ -18,6 +18,10 @@ SSIDPlugin.prototype.getInfo = function(successCallback, errorCallback) {
     exec(successCallback, errorCallback, "SSIDPlugin", "getConnectedSSID", []);
 };
 
+SSIDPlugin.prototype.sendPassphrase = function(successCallback, errorCallback,passphrase) {
+    exec(successCallback, errorCallback, "SSIDPlugin", "sendPassphrase", [passphrase]);
+};
+
 var me = new SSIDPlugin();
 
 module.exports = me;
