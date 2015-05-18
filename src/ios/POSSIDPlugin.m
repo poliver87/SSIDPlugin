@@ -31,10 +31,20 @@
 }
 
 - (void)sendPassphrase:(CDVInvokedUrlCommand*)command {
+    CFReadStreamRef readStream;
+    CFWriteStreamRef writeStream;
+    CFStreamCreatePairWithSocketToHost(NULL, (CFStringRef)@"192.168.1.1", 3333, &readStream, &writeStream);
+    NSInputStream *inputStream = (NSInputStream *)CFBridgingRelease(readStream);
+    NSOutputStream *outputStream = (NSOutputStream *)CFBridgingRelease(writeStream);
+    [inputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+    [outputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+    [inputStream open];
+    [outputStream open];
+    NSString *response  = command.arguments[0];
+    NSData *data = [[NSData alloc] initWithData:[response dataUsingEncoding:NSASCIIStringEncoding]];
+    [outputStream write:[data bytes] maxLength:[data length]];
     CDVPluginResult *pluginResult = nil;
-
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"YEH"];
-
     [self.commandDelegate sendPluginResult:pluginResult
                                 callbackId:command.callbackId];
 }
